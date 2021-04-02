@@ -20,7 +20,7 @@ module.exports = {
     extensions: [".js", ".ts", ".tsx"],
   },
   // 웹팩이 파일을 읽어드리는 시작점 설정옵션
-  entry: ["@babel/polyfill", "./main.ts"],
+  entry: ["@babel/polyfill", "./index.tsx"],
   output: {
     path: path.join(basePath, "dist"),
     filename: "bundle.js",
