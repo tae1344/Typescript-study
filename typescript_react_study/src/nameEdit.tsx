@@ -1,13 +1,26 @@
 import * as React from "react";
 
 interface Props {
-  userName: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; // TS에서 e객체의 타입이 React.ChangeEvent<HTMLInputElement>
+  initialUserName: string;
+  onNameUpdated: (newName: string) => any;
 }
 
-export const NameEditComponent = (props: Props) => (
-  <>
-    <label>Update Name:</label>
-    <input value={props.userName} onChange={props.onChange} />
-  </>
-);
+export const NameEditComponent = (props: Props) => {
+  const [editingName, setEditingName] = React.useState(props.initialUserName);
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditingName(e.target.value);
+  };
+
+  const onNameSubmit = (event: any): any => {
+    props.onNameUpdated(editingName);
+  };
+
+  return (
+    <>
+      <label>Update name:</label>
+      <input value={editingName} onChange={onChange} />
+      <button onClick={onNameSubmit}>Change</button>
+    </>
+  );
+};
