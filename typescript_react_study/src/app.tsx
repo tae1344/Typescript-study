@@ -7,7 +7,10 @@ import {
   SidebarComponent,
   MemberTableComponent,
 } from "./components";
+import { LoginContainer } from "./pages/login.container";
+import { PageB } from "./pages/pageB";
 import { Color } from "./model/color";
+import { HashRouter, Switch, Route } from "react-router-dom";
 
 export const App = () => {
   const [name, setName] = React.useState("Iron man!");
@@ -46,7 +49,13 @@ export const App = () => {
           </li>
         </ul>
       </SidebarComponent>
-      <MemberTableComponent />
+      <HashRouter>
+        <Switch>
+          <Route exact={true} path="/" component={LoginContainer} />
+          <Route path="/pageB" component={PageB} />
+        </Switch>
+      </HashRouter>
+      {/* <MemberTableComponent /> */}
       <ColorBrowser color={color} />
       <ColorPicker color={color} onColorUpdated={setColor} />
       <HelloComponent userName={name} />
