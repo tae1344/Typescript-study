@@ -4,6 +4,10 @@ import createStyles from "@material-ui/styles/createStyles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { LoginEntity, createEmptyLogin } from "../model/login";
+import { isValidLogin } from "../api/login";
+import { Form, Formik } from "formik";
+import { loginFormValidation } from "./login.validation";
+import { TextFieldComponent } from "../common";
 
 interface PropsForm {
   onLogin: (login: LoginEntity) => void;
@@ -23,7 +27,7 @@ export const LoginComponent: React.FC<PropsForm> = (props) => {
   const { onLogin } = props;
   const [loginInfo, setLoginInfo] = React.useState<LoginEntity>(createEmptyLogin());
   const classes = useFormStyles();
-  const onTexFieldChange = (fieldId) => (e) => {
+  const onTextFieldChange = (fieldId) => (e) => {
     setLoginInfo({
       ...loginInfo,
       [fieldId]: e.target.value,
@@ -31,18 +35,18 @@ export const LoginComponent: React.FC<PropsForm> = (props) => {
   };
 
   return (
-    <div className={classes.formContainer}>
-      <TextField label="Name" margin="normal" value={loginInfo.login} onChange={onTexFieldChange("login")} />
-      <TextField
-        label="Password"
-        type="password"
-        margin="normal"
-        value={loginInfo.password}
-        onChange={onTexFieldChange("password")}
-      />
-      <Button variant="contained" color="primary" onClick={() => onLogin(loginInfo)}>
-        Login
-      </Button>
-    </div>
+    <Formik onSubmit={onLogin} initialValues={createEmptyLogin()} validate={loginFormValidation.validateForm}>
+      {() => (
+        <Form>
+          <div className={classes.formContainer}>
+            <TextFieldComponent label="Name" name="login" />
+            <TextFieldComponent label="Password" type="password" name="password" />
+            <Button variant="contained" color="primary" onClick={() => onLogin(loginInfo)}>
+              Login
+            </Button>
+          </div>
+        </Form>
+      )}
+    </Formik>
   );
 };
