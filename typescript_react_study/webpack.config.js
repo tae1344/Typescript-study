@@ -17,7 +17,7 @@ module.exports = {
   context: path.join(basePath, "src"),
   // 웹팩이 알아서 경로나 확장자를 처리할 수 있게 도와주는 옵션(resolve)
   resolve: {
-    extensions: [".js", ".ts", ".tsx"],
+    extensions: [".js", ".ts", ".tsx", ".css"],
   },
   // 웹팩이 파일을 읽어드리는 시작점 설정옵션
   entry: ["@babel/polyfill", "./index.tsx"],
@@ -47,10 +47,34 @@ module.exports = {
         },
       },
       {
+        test: /\.css$/,
+        //include: /node_modules/,
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
+      },
+      // Use CSS modules for custom stylesheets
+      // {
+      //   test: /\.css$/,
+      //   exclude: /node_modules/,
+      //   use: [
+      //     MiniCssExtractPlugin.loader,
+      //     {
+      //       loader: "css-loader",
+      //       options: {
+      //         modules: {
+      //           localIdentName: "[name]__[local]___[hash:base64:5]",
+      //           exportLocalsConvention: "camelCase",
+      //         },
+      //         //localsConvention: "camelCase",
+      //       },
+      //     },
+      //   ],
+      // },
+      {
         test: /\.(png|jpg|gif|svg)$/,
         loader: "file-loader",
         options: {
           name: "assets/img/[name].[ext]?[hash]",
+          esModule: false,
         },
       },
     ],
