@@ -1,20 +1,15 @@
 import React, { useState } from "react";
-import { Section, Headline, Status, TopPosts, Container } from "./Home.style";
-import axios, { AxiosResponse } from "axios";
+import { Container, Headline, Section, Status, TopPosts } from "./Home.style";
 import Form from "../../components/Form/Form";
+import { fetchData } from "../../services/api";
 
-const MyComponent = () => {
+const Home = () => {
   const [posts, setPosts] = useState([]);
   const [status, setStatus] = useState("idle");
 
   const onSearch = async (subreddit: string) => {
     setStatus("loading");
-    const data = await axios
-      .get(`https://www.reddit.com/r/${subreddit}/top.json`)
-      .then((res: AxiosResponse) => {
-        console.log("res :: ", res);
-        return res.data.data;
-      });
+    const data = await fetchData(subreddit);
     setPosts(data.children);
     setStatus("resolved");
   };
@@ -32,4 +27,4 @@ const MyComponent = () => {
   );
 };
 
-export default MyComponent;
+export default Home;

@@ -10,7 +10,7 @@ function Form({ onSearch }: Props) {
   const [subreddit, setSubreddit] = useState("javascript");
 
   const onSubmit = (event: FormEvent) => {
-    console.log("event", event);
+    // console.log("event", event);
     event.preventDefault();
     onSearch(subreddit);
   };
